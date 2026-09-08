@@ -1,0 +1,11 @@
+import pytest
+
+from pyTestsDemo.conftest import dataLoad
+
+
+@pytest.mark.usefixtures("dataLoad")
+class TestExample2:
+
+    def test_editProfile(self, dataLoad):
+        print(dataLoad)
+        print(dataLoad[0])
