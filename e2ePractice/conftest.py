@@ -45,8 +45,6 @@ def browserInstance(request):
         chrome_options.add_argument(f"--user-data-dir={tempfile.mkdtemp(prefix='selenium-chrome-')}")
 
         driver = webdriver.Chrome(options=chrome_options)
-        driver.implicitly_wait(4)
-
     elif browser_name == "firefox":
         firefox_options = webdriver.FirefoxOptions()
         firefox_options.binary_location = "/home/melina/.local/firefox/firefox"
@@ -57,11 +55,10 @@ def browserInstance(request):
             options=firefox_options,
             service=Service(executable_path="/home/melina/.local/bin/geckodriver")
         )
-        driver.implicitly_wait(4)
-
     else:
         raise ValueError(f"Browser not supported: {browser_name}")
 
     driver.implicitly_wait(4)
+    driver.get("https://rahulshettyacademy.com/loginpagePractise/")
     yield driver
     driver.quit()

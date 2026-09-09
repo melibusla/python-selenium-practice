@@ -13,7 +13,7 @@ class LoginPage:
         self.password_input = driver.find_element(By.ID, "password")
         self.sign_in_button = driver.find_element(By.ID, "signInBtn")
 
-    def login(self, username="rahulshettyacademy", password="Learning@830$3mK2"):
+    def login(self, username, password):
         # Antes de cada login limpiamos los inputs para evitar valores viejos o estados inconsistentes.
         self.username_input.clear()
         self.password_input.clear()
