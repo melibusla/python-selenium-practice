@@ -1,0 +1,21 @@
+--2026-09-09 01:05:19--  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+Resolving pkg.jenkins.io (pkg.jenkins.io)... 151.101.218.133, 2a04:4e42:33::645
+Connecting to pkg.jenkins.io (pkg.jenkins.io)|151.101.218.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3175 (3,1K) [application/octet-stream]
+Saving to: ‘/usr/share/keyrings/jenkins-keyring.asc’
+
+          /usr/shar   0%[                    ]       0  --.-KB/s               /usr/share/keyrings 100%[===================>]   3,10K  --.-KB/s    in 0s      
+
+2026-09-09 01:05:20 (42,3 MB/s) - ‘/usr/share/keyrings/jenkins-keyring.asc’ saved [3175/3175]
+
+--2026-09-09 01:05:20--  http://echo/
+Resolving echo (echo)... failed: Temporary failure in name resolution.
+wget: unable to resolve host address ‘echo’
+Warning: wildcards not supported in HTTP.
+--2026-09-09 01:05:20--  http://deb%20%5Bsigned-by=/usr/share/keyrings/jenkins-keyring.asc]%20https://pkg.jenkins.io/debian-stable%20binary/
+Resolving deb [signed-by= (deb [signed-by=)... failed: Temporary failure in name resolution.
+wget: unable to resolve host address ‘deb [signed-by=’
+FINISHED --2026-09-09 01:05:20--
+Total wall clock time: 0,8s
+Downloaded: 1 files, 3,1K in 0s (42,3 MB/s)

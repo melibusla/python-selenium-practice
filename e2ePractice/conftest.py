@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 import sys
 import tempfile
+import os
 
 try:
     project_root = Path(__file__).resolve().parent.parent
@@ -46,12 +47,23 @@ def browserInstance(request):
         # Cada prueba corre con un perfil temporal limpio.
         chrome_options.add_argument(f"--user-data-dir={tempfile.mkdtemp(prefix='selenium-chrome-')}")
 
+        # Jenkins (y la mayoría de los sistemas CI) setean automáticamente
+        # la variable de entorno CI=true. La usamos para correr headless
+        # solo quien no tenga sesión gráfica disponible.
+        if os.environ.get("CI"):
+            chrome_options.add_argument("--headless=new")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--window-size=1920,1080")
         driver = webdriver.Chrome(options=chrome_options)
     elif browser_name == "firefox":
         firefox_options = webdriver.FirefoxOptions()
         firefox_options.binary_location = "/home/melina/.local/firefox/firefox"
         firefox_options.add_argument("--no-sandbox")
         firefox_options.add_argument("--disable-dev-shm-usage")
+
+        if os.environ.get("CI"):
+            firefox_options.add_argument("--headless")
 
         driver = webdriver.Firefox(
             options=firefox_options,
