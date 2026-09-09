@@ -23,7 +23,7 @@ class ShopPage:
         self.cart_link = self.wait.until(
             expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[class*='btn-primary']"))
         )
-
+        self.carousel_image = self.wait.until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "div[class*='carousel-item active'] img")))
     def _get_products(self):
         return self.wait.until(
             expected_conditions.visibility_of_all_elements_located((By.XPATH, "//div[contains(@class, 'card h-100')]"))
@@ -48,8 +48,7 @@ class ShopPage:
 
     def goToCart(self):
         cart_link = self.wait.until(
-            expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[class*='btn-primary']"))
-        )
+            expected_conditions.element_to_be_clickable((By.CSS_SELECTOR, "a[class*='btn-primary']")))
 
         try:
             cart_link.click()
@@ -59,3 +58,14 @@ class ShopPage:
 
         checkout_confirmation = CheckoutConfirmationPage(self.driver)
         return checkout_confirmation
+
+    def is_carousel_image_broken(self):
+        imagen = self.carousel_image
+        return self.driver.execute_script(
+            "return arguments[0].complete && arguments[0].naturalWidth === 0;",
+            imagen
+        )
+    def is_carousel_image_placeholder(self):
+        imagen = self.carousel_image
+        src = imagen.get_attribute("src")
+        return "placehold.co" in src or "placeholder" in src.lower()
