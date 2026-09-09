@@ -20,6 +20,8 @@
             # to apply it at class level (runs once at the beginning not for each test), add 'scope="class"' to the conftest method
     #Datadriven and parameterization can be done with return statements in tuple format
     #Save to a html file: pytest --html=report.html => python3 -m pytest --html=report.html -v -s
+    #pytest -m smoke //tagging
+    #pytest -n 10 // pytest-xdist plugin to run parallel tests
 
 import pytest
 

@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import sys
 import tempfile
 
@@ -12,7 +13,7 @@ sys.path.insert(0, str(project_root))
 import pytest
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
-
+driver = None
 
 def pytest_addoption(parser):
     # Permite elegir el navegador desde la línea de comandos:
@@ -22,6 +23,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="function")
 def browserInstance(request):
+    global driver
     browser_name = request.config.getoption("browser_name").lower()
 
     if browser_name == "chrome":
@@ -62,3 +64,38 @@ def browserInstance(request):
     driver.get("https://rahulshettyacademy.com/loginpagePractise/")
     yield driver
     driver.quit()
+
+
+def _capture_screenshot(driver, file_name):
+    if driver is not None:
+        return driver.get_screenshot_as_file(file_name)
+    return False
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item):
+    # Hook para capturar el resultado de cada prueba y tomar una captura de pantalla si falla.
+    pytest_html = item.config.pluginmanager.getplugin("html")
+    outcome = yield
+    rep = outcome.get_result()
+
+    if rep.when in ("call", "setup"):
+        xfail = hasattr(rep, "wasxfail")
+        if (rep.skipped and xfail) or (rep.failed and not xfail):
+            reports_dir = Path(__file__).parent / "reports"
+            reports_dir.mkdir(parents=True, exist_ok=True)
+            safe_nodeid = re.sub(r"[^A-Za-z0-9_.-]+", "_", rep.nodeid)
+            file_name = reports_dir / f"{safe_nodeid}.png"
+
+            if _capture_screenshot(driver, str(file_name)) and pytest_html is not None:
+                extras = getattr(rep, "extras", None)
+                if extras is None:
+                    extras = []
+                    rep.extras = extras
+
+                extras.append(
+                    pytest_html.extras.image(
+                        str(file_name),
+                        name="Screenshot on failure",
+                    )
+                )

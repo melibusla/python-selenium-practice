@@ -1,3 +1,5 @@
+#pytest -m smoke //tagging
+#pytest -n 10 // pytest-xdist plugin to run parallel tests
 import json
 from pathlib import Path
 
