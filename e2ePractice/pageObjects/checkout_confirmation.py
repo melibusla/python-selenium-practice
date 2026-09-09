@@ -3,10 +3,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
+from e2ePractice.utils.browserUtils import BrowserUtils
 
-class CheckoutConfirmationPage:
+
+class CheckoutConfirmationPage(BrowserUtils):
     def __init__(self, driver):
         self.driver = driver
+        super().__init__(self.driver)
         self.wait = WebDriverWait(driver, 15)
 
         # En el flujo actual del sitio, el checkout es un botón/enlace con estructura diferente a la del curso.

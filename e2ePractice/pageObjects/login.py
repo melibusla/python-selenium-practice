@@ -1,13 +1,15 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-from pageObjects.shop import ShopPage
+from e2ePractice.pageObjects.shop import ShopPage
+from e2ePractice.utils.browserUtils import BrowserUtils
 
-
-class LoginPage:
+#this class inherits from BrowserUtils
+class LoginPage(BrowserUtils):
     def __init__(self, driver):
         self.driver = driver
-
+        #initiate parent class
+        super().__init__(self.driver)
         # Guardamos los elementos del formulario una vez para que la clase sea simple de reutilizar.
         self.username_input = driver.find_element(By.ID, "username")
         self.password_input = driver.find_element(By.ID, "password")

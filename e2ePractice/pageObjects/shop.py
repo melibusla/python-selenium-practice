@@ -3,12 +3,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
-from pageObjects.checkout_confirmation import CheckoutConfirmationPage
+from e2ePractice.pageObjects.checkout_confirmation import CheckoutConfirmationPage
+from e2ePractice.utils.browserUtils import BrowserUtils
 
 
-class ShopPage:
+class ShopPage(BrowserUtils):
     def __init__(self, driver):
         self.driver = driver
+        super().__init__(self.driver)
         self.wait = WebDriverWait(driver, 10)
 
         # Esperamos a que la navegación principal esté lista antes de interactuar con la UI.
