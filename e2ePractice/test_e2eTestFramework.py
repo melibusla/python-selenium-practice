@@ -24,3 +24,16 @@ def test_carousel_image_is_placeholder_not_broken(browserInstance):
 
     assert not shop_page.is_carousel_image_broken(), "La imagen del carrusel está rota."
     assert shop_page.is_carousel_image_placeholder(), "Se esperaba un placeholder, pero parece una imagen real"
+def test_product_images_are_not_broken(browserInstance):
+    driver = browserInstance
+
+    driver.get("https://rahulshettyacademy.com/loginpagePractise/")
+    login_page = LoginPage(driver)
+    shop_page = login_page.login()
+
+    imagenes = shop_page.get_product_images()
+    assert len(imagenes) > 0, "No se encontraron imágenes de productos"
+
+    for imagen in imagenes:
+        src = imagen.get_attribute("src")
+        assert not shop_page.is_image_broken(imagen), f"Imagen rota: {src}"

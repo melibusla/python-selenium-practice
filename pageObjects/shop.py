@@ -59,12 +59,22 @@ class ShopPage:
         checkout_confirmation = CheckoutConfirmationPage(self.driver)
         return checkout_confirmation
 
-    def is_carousel_image_broken(self):
-        imagen = self.carousel_image
+    def get_product_images(self):
+        products = self._get_products()
+        imagenes = []
+        for product in products:
+            img = product.find_element(By.XPATH, ".//img")
+            imagenes.append(img)
+        return imagenes
+        # return [product.find_element(By.XPATH, ".//img") for product in products]
+
+    def is_image_broken(self, img_element):
         return self.driver.execute_script(
             "return arguments[0].complete && arguments[0].naturalWidth === 0;",
-            imagen
+            img_element
         )
+    def is_carousel_image_broken(self):
+        return self.is_image_broken(self.carousel_image)
     def is_carousel_image_placeholder(self):
         imagen = self.carousel_image
         src = imagen.get_attribute("src")
